@@ -1,6 +1,6 @@
 console.log('Hello from TF')
 
-let getData = async () => {
+async function getData(){
   const req = await fetch('https://storage.googleapis.com/tfjs-tutorials/carsData.json')
   const data = await req.json()
   const cleaned = data.map(obj => ({
@@ -11,7 +11,7 @@ let getData = async () => {
   return cleaned
 }
 
-let createModel = () => {
+function createModel(){
   const model = tf.sequential()
 
   // Hidden layer
@@ -29,7 +29,7 @@ let createModel = () => {
   return model
 }
 
-let convertToTensor = data => {
+function convertToTensor(data){
 
   // Clean up memory
   return tf.tidy(() => {
@@ -57,7 +57,7 @@ let convertToTensor = data => {
 }
 
 
-let trainModel = async (model, inputs, labels) => {
+async function trainModel(model, inputs, labels){
   model.compile({
     optimizer: tf.train.adam(),
     loss: tf.losses.meanSquaredError,
@@ -78,7 +78,7 @@ let trainModel = async (model, inputs, labels) => {
   })
 }
 
-let testModel = (model, inputData, normalizedData) => {
+function testModel(model, inputData, normalizedData){
   const {inputMax, inputMin, labelMin, labelMax} = normalizedData
 
   const [xs, preds] = tf.tidy(() => {
@@ -114,7 +114,7 @@ let testModel = (model, inputData, normalizedData) => {
   )
 }
 
-let run = async () => {
+async function run(){
   const data = await getData()
   const values = data.map(obj => ({
     x: obj.hp,
